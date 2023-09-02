@@ -10,16 +10,42 @@ public class PlayerMovement : MonoBehaviour
 
 	Vector2 movement;
 
+    public LayerMask layerMask;
 
-	// Update is called once per frame
-	void Update()
+    public bool IsDashing = false;
+    public bool Imortal = false;
+    public float IFrames;
+    // Update is called once per frame
+    void Update()
 	{
 		movement.x = Input.GetAxisRaw("Horizontal");
 		movement.y = Input.GetAxisRaw("Vertical");
 
 	}
 
-	private void FixedUpdate()
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        if ((layerMask.value & (1 << other.transform.gameObject.layer)) > 0)
+        {
+            if (!IsDashing)
+            {
+                StartCoroutine(damaged());
+            }
+        }
+    }
+
+    IEnumerator damaged()
+    {
+        if (Imortal == false)
+        {
+            Debug.Log("Hit by enemy");
+            Imortal = true;
+            yield return new WaitForSeconds(IFrames);
+            Imortal = false;
+        }
+    }
+
+    private void FixedUpdate()
 	{
 		rb.MovePosition(rb.position + movement * MoveSpeed * Time.fixedDeltaTime);
 

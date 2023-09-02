@@ -5,6 +5,7 @@ using UnityEngine;
 public class CameraFollow : MonoBehaviour
 {
 	public Transform target;
+	public PlayerMovement move;
 
 	public float SmoothSpeed = 0.125f;
 	public Vector3 offset;
@@ -25,7 +26,9 @@ public class CameraFollow : MonoBehaviour
 	IEnumerator yes()
 	{
 		isnotnot = true;
+		move.IsDashing = true;
 		yield return new WaitForSeconds(DTime);
+		move.IsDashing = false;
 		isnotnot = false;
     }
 
