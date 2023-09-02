@@ -10,6 +10,8 @@ public class PlayerMovement : MonoBehaviour
 
 	Vector2 movement;
 
+    public Animator ani;
+
     public LayerMask layerMask;
 
     public bool IsDashing = false;
@@ -21,7 +23,10 @@ public class PlayerMovement : MonoBehaviour
 		movement.x = Input.GetAxisRaw("Horizontal");
 		movement.y = Input.GetAxisRaw("Vertical");
 
-	}
+        ani.SetFloat("WalkHorizontal", movement.x);
+        ani.SetFloat("WalkVertical", movement.y);
+        ani.SetFloat("Speed", movement.sqrMagnitude);
+    }
 
     private void OnTriggerEnter2D(Collider2D other)
     {
