@@ -9,10 +9,38 @@ public class enemy : MonoBehaviour
 
     private float distance;
 
+    private bool yes = false;
+
+    public LayerMask layerMask;
+    public Rigidbody2D rb;
+    public float knockbackforce = 5f;
     // Start is called before the first frame update
     void Start()
     {
         
+    }
+
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        if ((layerMask.value & (1 << other.transform.gameObject.layer)) > 0)
+        {
+            if (!yes)
+            {
+                StartCoroutine(hit());
+            }
+        }
+    }
+
+    IEnumerator hit()
+    {
+        Debug.Log("you hit the enemy");
+        yes = true;
+        Vector2 direction = player.transform.position - transform.position;
+        direction.Normalize();
+        rb.AddForce(-direction * knockbackforce);
+        yield return new WaitForSeconds(0.21f);
+        rb.AddForce(direction * knockbackforce);
+        yes = false;
     }
 
     // Update is called once per frame
