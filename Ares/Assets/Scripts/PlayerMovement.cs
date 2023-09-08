@@ -21,9 +21,17 @@ public class PlayerMovement : MonoBehaviour
     public bool Imortal = false;
     public float IFrames;
 
+    public float damage = 5f;
+    public float MaxHp = 70f;
+    public float currentHp;
+    public float dashForce = 100f;
+    public float DTime = 0.2f;
+    enemy enemy;
+
     void Start()
     {
         hitbox.enabled = !hitbox.enabled;
+        currentHp = MaxHp;
         StartCoroutine(attack());
     }
 
@@ -42,6 +50,23 @@ public class PlayerMovement : MonoBehaviour
         ani.SetFloat("WalkHorizontal", movement.x);
         ani.SetFloat("WalkVertical", movement.y);
         ani.SetFloat("Speed", movement.sqrMagnitude);
+
+        if (IsDashing == true)
+        {
+            rb.AddForce(direction * dashForce);
+        }
+
+        if (Input.GetButtonDown("Fire1"))
+        {
+            StartCoroutine(yes());
+        }
+    }
+
+    IEnumerator yes()
+    {
+        IsDashing = true;
+        yield return new WaitForSeconds(DTime);
+        IsDashing = false;
     }
 
     private void OnTriggerEnter2D(Collider2D other)
@@ -50,7 +75,7 @@ public class PlayerMovement : MonoBehaviour
         {
             if (!IsDashing)
             {
-                StartCoroutine(damaged());
+                StartCoroutine(damaged(other));
             }
         }
     }
@@ -65,13 +90,22 @@ public class PlayerMovement : MonoBehaviour
         StartCoroutine(attack()); 
     }
 
-    IEnumerator damaged()
+    IEnumerator damaged(Collider2D Ehitbox)
     {
         if (Imortal == false)
         {
             Debug.Log("Hit by enemy");
+            GameObject ene = Ehitbox.transform.gameObject;
+            enemy = ene.GetComponent<enemy>();
+            currentHp -= enemy.attack;
+            if (currentHp <= 0f)
+            {
+                Debug.Log("Dead");
+            }
             Imortal = true;
+            Ehitbox.enabled = !Ehitbox.enabled;
             yield return new WaitForSeconds(IFrames);
+            Ehitbox.enabled = !Ehitbox.enabled;
             Imortal = false;
         }
     }

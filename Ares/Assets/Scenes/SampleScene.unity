@@ -232,8 +232,6 @@ MonoBehaviour:
   move: {fileID: 989465590}
   SmoothSpeed: 0.125
   offset: {x: 0, y: 0, z: -10}
-  isnot: 0
-  DTime: 0.2
 --- !u!1 &559998253
 GameObject:
   m_ObjectHideFlags: 0
@@ -247,8 +245,9 @@ GameObject:
   - component: {fileID: 559998255}
   - component: {fileID: 559998254}
   - component: {fileID: 559998258}
+  - component: {fileID: 559998259}
   m_Layer: 3
-  m_Name: Enemy
+  m_Name: Kobalos
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -357,7 +356,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: -2413806693520163455, guid: a86470a33a6bf42c4b3595704624658b, type: 3}
+  m_Sprite: {fileID: 21300000, guid: e1207c68611dde54ea9a6ae99e704772, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -397,11 +396,37 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   player: {fileID: 989465589}
   speed: 2
+  ani: {fileID: 559998259}
+  attack: 3
+  MaxHp: 10
+  currentHp: 0
+  playerScript: {fileID: 989465590}
   layerMask:
     serializedVersion: 2
     m_Bits: 64
   rb: {fileID: 559998255}
   knockbackforce: 270
+--- !u!95 &559998259
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 559998253}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: dac66abda2ec1ba4fb4818844b9dea9b, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &610846771
 GameObject:
   m_ObjectHideFlags: 0
@@ -431,7 +456,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 1.01, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 2, y: 2, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1723680857}
@@ -553,19 +578,23 @@ PolygonCollider2D:
   m_AutoTiling: 0
   m_Points:
     m_Paths:
-    - - {x: -0.52978307, y: 0.6191323}
-      - {x: -0.8276137, y: 0.5658783}
-      - {x: -0.604463, y: -0.4375}
-      - {x: -0.24751043, y: -0.49706608}
-      - {x: 0.4077171, y: -0.43749994}
-      - {x: 0.4806502, y: -0.32493418}
-      - {x: 0.5566323, y: -0.2885847}
-      - {x: 0.5566323, y: -0.37793386}
-      - {x: 0.5893494, y: -0.13380158}
-      - {x: 0.5595659, y: -0.16358463}
-      - {x: 0.61913216, y: -0.22315079}
-      - {x: 0.6191323, y: 0.28271702}
-      - {x: 0.33934927, y: 0.5893492}
+    - - {x: -0.45532537, y: 0.54467463}
+      - {x: -0.52978295, y: 0.1638068}
+      - {x: -0.57468, y: -0.27369308}
+      - {x: -0.2772935, y: -0.33325922}
+      - {x: -0.14326978, y: -0.33325922}
+      - {x: -0.14326978, y: -0.30347604}
+      - {x: -0.11348665, y: -0.34815067}
+      - {x: -0.11348659, y: -0.33325922}
+      - {x: -0.14479434, y: -0.32493418}
+      - {x: 0.05032009, y: -0.3332593}
+      - {x: 0.035428584, y: -0.3332593}
+      - {x: 0.16945231, y: -0.33325925}
+      - {x: 0.23195243, y: -0.25293386}
+      - {x: 0.3510843, y: -0.1784762}
+      - {x: 0.4404338, y: -0.14869311}
+      - {x: 0.5, y: 0.23804241}
+      - {x: 0.20532548, y: 0.5148915}
   m_UseDelaunayMesh: 0
 --- !u!1 &989465589
 GameObject:
@@ -580,7 +609,6 @@ GameObject:
   - component: {fileID: 989465592}
   - component: {fileID: 989465591}
   - component: {fileID: 989465590}
-  - component: {fileID: 989465595}
   - component: {fileID: 989465596}
   m_Layer: 0
   m_Name: Player
@@ -615,6 +643,11 @@ MonoBehaviour:
   IsDashing: 0
   Imortal: 0
   IFrames: 1
+  damage: 5
+  MaxHp: 70
+  currentHp: 0
+  dashForce: 800
+  DTime: 0.2
 --- !u!61 &989465591
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -754,24 +787,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &989465595
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 989465589}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5684bc10c40c20346889168bb14c5d10, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  target: {fileID: 1517659032}
-  move: {fileID: 989465590}
-  SmoothSpeed: 0.1
-  offset: {x: 0, y: 0, z: 5}
-  isnot: 1
-  DTime: 0.2
 --- !u!95 &989465596
 Animator:
   serializedVersion: 5
@@ -1004,7 +1019,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
-  m_Color: {r: 0.1957547, g: 0.5, b: 0.25029647, a: 1}
+  m_Color: {r: 0.13550195, g: 0.1981132, b: 0.14673987, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0

@@ -6,6 +6,12 @@ public class enemy : MonoBehaviour
 {
     public GameObject player;
     public float speed;
+    public Animator ani;
+
+    public float attack = 3f;
+    public float MaxHp = 10f;
+    public float currentHp;
+    public PlayerMovement playerScript;
 
     private float distance;
 
@@ -17,7 +23,7 @@ public class enemy : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+        currentHp = MaxHp;
     }
 
     private void OnTriggerEnter2D(Collider2D other)
@@ -34,6 +40,11 @@ public class enemy : MonoBehaviour
     IEnumerator hit()
     {
         Debug.Log("you hit the enemy");
+        currentHp -= playerScript.damage;
+        if (currentHp <= 0f)
+        {
+            Debug.Log("Enemy Dead");
+        }
         yes = true;
         Vector2 direction = player.transform.position - transform.position;
         direction.Normalize();
@@ -49,9 +60,8 @@ public class enemy : MonoBehaviour
         distance = Vector2.Distance(transform.position, player.transform.position);
         Vector2 direction = player.transform.position - transform.position;
         direction.Normalize();
-        float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
+        ani.SetFloat("Speed", direction.x);
 
         transform.position = Vector2.MoveTowards(this.transform.position, player.transform.position, speed * Time.deltaTime);
-        transform.rotation = Quaternion.Euler(Vector3.forward * angle);
     }
 }
