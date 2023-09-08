@@ -11,7 +11,7 @@ public class enemy : MonoBehaviour
     public float attack = 3f;
     public float MaxHp = 10f;
     public float currentHp;
-    public PlayerMovement playerScript;
+    public Player playerScript;
 
     private float distance;
 

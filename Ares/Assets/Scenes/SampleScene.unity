@@ -229,7 +229,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   target: {fileID: 989465594}
-  move: {fileID: 989465590}
   SmoothSpeed: 0.125
   offset: {x: 0, y: 0, z: -10}
 --- !u!1 &559998253
@@ -400,7 +399,7 @@ MonoBehaviour:
   attack: 3
   MaxHp: 10
   currentHp: 0
-  playerScript: {fileID: 989465590}
+  playerScript: {fileID: 989465597}
   layerMask:
     serializedVersion: 2
     m_Bits: 64
@@ -541,7 +540,7 @@ PolygonCollider2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 610846771}
-  m_Enabled: 1
+  m_Enabled: 0
   m_Density: 1
   m_Material: {fileID: 0}
   m_IncludeLayers:
@@ -608,8 +607,8 @@ GameObject:
   - component: {fileID: 989465593}
   - component: {fileID: 989465592}
   - component: {fileID: 989465591}
-  - component: {fileID: 989465590}
   - component: {fileID: 989465596}
+  - component: {fileID: 989465597}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -617,37 +616,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &989465590
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 989465589}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3561f94a2b351914c956a5ee7f65dc11, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  MoveSpeed: 5
-  rb: {fileID: 989465592}
-  ani: {fileID: 989465596}
-  layerMask:
-    serializedVersion: 2
-    m_Bits: 8
-  mouse: {fileID: 1517659029}
-  look: {fileID: 1723680856}
-  sword: {fileID: 610846774}
-  attackSpeed: 2
-  hitbox: {fileID: 610846775}
-  IsDashing: 0
-  Imortal: 0
-  IFrames: 1
-  damage: 5
-  MaxHp: 70
-  currentHp: 0
-  dashForce: 800
-  DTime: 0.2
 --- !u!61 &989465591
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -808,6 +776,37 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &989465597
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 989465589}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 272912d3e9ad9214c9a4c1cc75f7683a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  MoveSpeed: 5
+  rb: {fileID: 989465592}
+  ani: {fileID: 989465596}
+  layerMask:
+    serializedVersion: 2
+    m_Bits: 8
+  mouse: {fileID: 1517659029}
+  look: {fileID: 1723680856}
+  sword: {fileID: 610846774}
+  attackSpeed: 3
+  hitbox: {fileID: 610846775}
+  IsDashing: 0
+  Imortal: 0
+  IFrames: 1
+  damage: 5
+  MaxHp: 70
+  currentHp: 0
+  dashForce: 800
+  DTime: 0.2
 --- !u!1 &1517659029
 GameObject:
   m_ObjectHideFlags: 0

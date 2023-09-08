@@ -2,11 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerMovement : MonoBehaviour
-{ 
-	public float MoveSpeed = 5f;
-	public Rigidbody2D rb;
-	Vector2 movement;
+public class Player : MonoBehaviour
+{
+    public float MoveSpeed = 5f;
+    public Rigidbody2D rb;
+    Vector2 movement;
     public Animator ani;
 
     public LayerMask layerMask;
@@ -27,19 +27,19 @@ public class PlayerMovement : MonoBehaviour
     public float dashForce = 100f;
     public float DTime = 0.2f;
     enemy enemy;
+    bool attacking = false;
 
+    //start is start
     void Start()
     {
-        hitbox.enabled = !hitbox.enabled;
         currentHp = MaxHp;
-        StartCoroutine(attack());
     }
 
     // Update is called once per frame
     void Update()
-	{
-		movement.x = Input.GetAxisRaw("Horizontal");
-		movement.y = Input.GetAxisRaw("Vertical");
+    {
+        movement.x = Input.GetAxisRaw("Horizontal");
+        movement.y = Input.GetAxisRaw("Vertical");
 
         look.transform.position = this.transform.position;
         Vector2 direction = mouse.transform.position - look.transform.position;
@@ -55,7 +55,10 @@ public class PlayerMovement : MonoBehaviour
         {
             rb.AddForce(direction * dashForce);
         }
-
+        if (!attacking)
+        {
+            StartCoroutine(attack());
+        }
         if (Input.GetButtonDown("Fire1"))
         {
             StartCoroutine(yes());
@@ -83,11 +86,12 @@ public class PlayerMovement : MonoBehaviour
     IEnumerator attack()
     {
         sword.SetTrigger("slash");
-        hitbox.enabled = !hitbox.enabled;
+        attacking = true;
+        hitbox.enabled = true;
         yield return new WaitForSeconds(0.15f);
-        hitbox.enabled = !hitbox.enabled;
+        hitbox.enabled = false;
         yield return new WaitForSeconds(attackSpeed - 0.15f);
-        StartCoroutine(attack()); 
+        attacking = false;
     }
 
     IEnumerator damaged(Collider2D Ehitbox)
@@ -103,16 +107,16 @@ public class PlayerMovement : MonoBehaviour
                 Debug.Log("Dead");
             }
             Imortal = true;
-            Ehitbox.enabled = !Ehitbox.enabled;
+            Ehitbox.enabled = false;
             yield return new WaitForSeconds(IFrames);
-            Ehitbox.enabled = !Ehitbox.enabled;
+            Ehitbox.enabled = true;
             Imortal = false;
         }
     }
 
     private void FixedUpdate()
-	{
-		rb.MovePosition(rb.position + movement * MoveSpeed * Time.fixedDeltaTime);
+    {
+        rb.MovePosition(rb.position + movement * MoveSpeed * Time.fixedDeltaTime);
 
     }
 }
