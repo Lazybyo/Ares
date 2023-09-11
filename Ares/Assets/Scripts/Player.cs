@@ -9,7 +9,16 @@ public class Player : MonoBehaviour
     Vector2 movement;
     public Animator ani;
 
+    public float expM = 10f;
+    public float expA = 0f;
+    public float expN = 1f;
+    public float level = 1f;
+
+    GameObject experiance;
+
     public LayerMask layerMask;
+    public LayerMask exp;
+    public GameObject Kobalos;
 
     public GameObject mouse;
     public GameObject look;
@@ -26,6 +35,8 @@ public class Player : MonoBehaviour
     public float currentHp;
     public float dashForce = 100f;
     public float DTime = 0.2f;
+    public float DCooldown = 1f;
+    bool able = true;
     enemy enemy;
     bool attacking = false;
 
@@ -61,15 +72,21 @@ public class Player : MonoBehaviour
         }
         if (Input.GetButtonDown("Fire1"))
         {
-            StartCoroutine(yes());
+            if (able)
+            {
+                StartCoroutine(yes());
+            }
         }
     }
 
     IEnumerator yes()
     {
+        able = false;
         IsDashing = true;
         yield return new WaitForSeconds(DTime);
         IsDashing = false;
+        yield return new WaitForSeconds(DCooldown);
+        able = true;
     }
 
     private void OnTriggerEnter2D(Collider2D other)
@@ -80,6 +97,17 @@ public class Player : MonoBehaviour
             {
                 StartCoroutine(damaged(other));
             }
+        }
+        if ((exp.value & (1 << other.transform.gameObject.layer)) > 0)
+        {
+            expA += expN;
+            if (expA >= expM)
+            {
+                level += 1;
+                expA -= expM;
+            }
+            experiance = other.transform.gameObject;
+            Destroy(experiance);
         }
     }
 

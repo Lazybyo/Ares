@@ -15,13 +15,16 @@ public class enemy : MonoBehaviour
 
     private float distance;
 
+    public GameObject self;
+    public GameObject ep;
+
     private bool yes = false;
 
     public LayerMask layerMask;
     public Rigidbody2D rb;
     public float knockbackforce = 5f;
     // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
         currentHp = MaxHp;
     }
@@ -43,7 +46,8 @@ public class enemy : MonoBehaviour
         currentHp -= playerScript.damage;
         if (currentHp <= 0f)
         {
-            Debug.Log("Enemy Dead");
+            Instantiate(ep, new Vector3(self.transform.position.x, self.transform.position.y, 0f), Quaternion.identity);
+            self.SetActive(false);
         }
         yes = true;
         Vector2 direction = player.transform.position - transform.position;

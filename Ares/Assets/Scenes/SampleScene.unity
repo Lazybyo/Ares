@@ -242,9 +242,9 @@ GameObject:
   - component: {fileID: 559998257}
   - component: {fileID: 559998256}
   - component: {fileID: 559998255}
-  - component: {fileID: 559998254}
   - component: {fileID: 559998258}
   - component: {fileID: 559998259}
+  - component: {fileID: 559998260}
   m_Layer: 3
   m_Name: Kobalos
   m_TagString: Untagged
@@ -252,41 +252,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!58 &559998254
-CircleCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 559998253}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_ForceSendLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_ForceReceiveLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_ContactCaptureLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_CallbackLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_IsTrigger: 1
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
-  serializedVersion: 2
-  m_Radius: 0.5
 --- !u!50 &559998255
 Rigidbody2D:
   serializedVersion: 4
@@ -400,6 +365,8 @@ MonoBehaviour:
   MaxHp: 10
   currentHp: 0
   playerScript: {fileID: 989465597}
+  self: {fileID: 559998253}
+  ep: {fileID: 1242065286655947221, guid: d43eef67f808db242aa75e3ccba65f28, type: 3}
   layerMask:
     serializedVersion: 2
     m_Bits: 64
@@ -426,6 +393,51 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!61 &559998260
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 559998253}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: -0.05791664, y: -0.02895829}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 1, y: 1}
+    newSize: {x: 1, y: 1}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 0.36291695, y: 0.9420834}
+  m_EdgeRadius: 0
 --- !u!1 &610846771
 GameObject:
   m_ObjectHideFlags: 0
@@ -791,9 +803,17 @@ MonoBehaviour:
   MoveSpeed: 5
   rb: {fileID: 989465592}
   ani: {fileID: 989465596}
+  expM: 10
+  expA: 0
+  expN: 1
+  level: 1
   layerMask:
     serializedVersion: 2
     m_Bits: 8
+  exp:
+    serializedVersion: 2
+    m_Bits: 128
+  Kobalos: {fileID: 559998253}
   mouse: {fileID: 1517659029}
   look: {fileID: 1723680856}
   sword: {fileID: 610846774}
@@ -807,6 +827,7 @@ MonoBehaviour:
   currentHp: 0
   dashForce: 800
   DTime: 0.2
+  DCooldown: 1
 --- !u!1 &1517659029
 GameObject:
   m_ObjectHideFlags: 0
