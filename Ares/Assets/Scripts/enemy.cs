@@ -4,14 +4,14 @@ using UnityEngine;
 
 public class enemy : MonoBehaviour
 {
-    public GameObject player;
+    GameObject player;
     public float speed;
     public Animator ani;
 
     public float attack = 3f;
     public float MaxHp = 10f;
     public float currentHp;
-    public Player playerScript;
+    Player playerScript;
 
     private float distance;
 
@@ -26,6 +26,8 @@ public class enemy : MonoBehaviour
     // Start is called before the first frame update
     void Awake()
     {
+        player = GameObject.Find("Player");
+        playerScript = GameObject.Find("Player").GetComponent<Player>();
         currentHp = MaxHp;
     }
 
@@ -47,10 +49,10 @@ public class enemy : MonoBehaviour
         if (currentHp <= 0f)
         {
             Instantiate(ep, new Vector3(self.transform.position.x, self.transform.position.y, 0f), Quaternion.identity);
-            self.SetActive(false);
+            Destroy(self);
         }
         yes = true;
-        Vector2 direction = player.transform.position - transform.position;
+        Vector2 direction = player.transform.position - self.transform.position;
         direction.Normalize();
         rb.AddForce(-direction * knockbackforce);
         yield return new WaitForSeconds(0.21f);
@@ -61,11 +63,11 @@ public class enemy : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        distance = Vector2.Distance(transform.position, player.transform.position);
-        Vector2 direction = player.transform.position - transform.position;
+        distance = Vector2.Distance(self.transform.position, player.transform.position);
+        Vector2 direction = player.transform.position - self.transform.position;
         direction.Normalize();
         ani.SetFloat("Speed", direction.x);
 
-        transform.position = Vector2.MoveTowards(this.transform.position, player.transform.position, speed * Time.deltaTime);
+        self.transform.position = Vector2.MoveTowards(self.transform.position, player.transform.position, speed * Time.deltaTime);
     }
 }

@@ -19,6 +19,7 @@ public class Player : MonoBehaviour
     public LayerMask layerMask;
     public LayerMask exp;
     public GameObject Kobalos;
+    public GameObject self;
 
     public GameObject mouse;
     public GameObject look;
@@ -39,6 +40,8 @@ public class Player : MonoBehaviour
     bool able = true;
     enemy enemy;
     bool attacking = false;
+    bool Sable = true;
+    public float SpawnTime = 5f;
 
     //start is start
     void Start()
@@ -58,8 +61,7 @@ public class Player : MonoBehaviour
         float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
         look.transform.rotation = Quaternion.Euler(Vector3.forward * angle);
 
-        ani.SetFloat("WalkHorizontal", movement.x);
-        ani.SetFloat("WalkVertical", movement.y);
+        ani.SetFloat("WalkHorizontal", direction.x);
         ani.SetFloat("Speed", movement.sqrMagnitude);
 
         if (IsDashing == true)
@@ -77,6 +79,34 @@ public class Player : MonoBehaviour
                 StartCoroutine(yes());
             }
         }
+        if (Sable)
+        {
+            StartCoroutine(spawnKobalos());
+        }
+    }
+
+    IEnumerator spawnKobalos()
+    {
+        Sable = false;
+        int spawnL = Random.Range(1, 5);
+        if (spawnL == 1)
+        {
+            Instantiate(Kobalos, new Vector3(self.transform.position.x + Random.Range(5, 11), self.transform.position.y + Random.Range(5, 11), 0f), Quaternion.identity);
+        }
+        if (spawnL == 2)
+        {
+            Instantiate(Kobalos, new Vector3(self.transform.position.x - Random.Range(5, 11), self.transform.position.y + Random.Range(5, 11), 0f), Quaternion.identity);
+        }
+        if (spawnL == 3)
+        {
+            Instantiate(Kobalos, new Vector3(self.transform.position.x + Random.Range(5, 11), self.transform.position.y - Random.Range(5, 11), 0f), Quaternion.identity);
+        }
+        if (spawnL == 4)
+        {
+            Instantiate(Kobalos, new Vector3(self.transform.position.x - Random.Range(5, 11), self.transform.position.y - Random.Range(5, 11), 0f), Quaternion.identity);
+        }
+        yield return new WaitForSeconds(SpawnTime);
+        Sable = true;
     }
 
     IEnumerator yes()
