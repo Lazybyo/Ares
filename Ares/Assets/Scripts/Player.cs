@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Player : MonoBehaviour
 {
@@ -15,6 +16,8 @@ public class Player : MonoBehaviour
     public float level = 1f;
 
     GameObject experiance;
+    public Slider xpSlider;
+    public Slider HpSlider;
 
     public LayerMask layerMask;
     public LayerMask exp;
@@ -63,6 +66,9 @@ public class Player : MonoBehaviour
 
         ani.SetFloat("WalkHorizontal", direction.x);
         ani.SetFloat("Speed", movement.sqrMagnitude);
+
+        xpSlider.value = (100f / expM) * expA;
+        HpSlider.value = (100f / MaxHp) * currentHp;
 
         if (IsDashing == true)
         {
@@ -134,6 +140,8 @@ public class Player : MonoBehaviour
             if (expA >= expM)
             {
                 level += 1;
+                damage *= 1.1f;
+                attackSpeed *= 0.9f;
                 expA -= expM;
             }
             experiance = other.transform.gameObject;
@@ -165,9 +173,7 @@ public class Player : MonoBehaviour
                 Debug.Log("Dead");
             }
             Imortal = true;
-            Ehitbox.enabled = false;
             yield return new WaitForSeconds(IFrames);
-            Ehitbox.enabled = true;
             Imortal = false;
         }
     }

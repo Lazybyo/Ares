@@ -198,6 +198,10 @@ MonoBehaviour:
   attack: 3
   MaxHp: 10
   currentHp: 0
+  playerMask:
+    serializedVersion: 2
+    m_Bits: 4096
+  hituck: {fileID: 891072338502398434}
   self: {fileID: 6311095903417617722}
   ep: {fileID: 1242065286655947221, guid: d43eef67f808db242aa75e3ccba65f28, type: 3}
   layerMask:

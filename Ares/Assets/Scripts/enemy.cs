@@ -12,6 +12,8 @@ public class enemy : MonoBehaviour
     public float MaxHp = 10f;
     public float currentHp;
     Player playerScript;
+    public LayerMask playerMask;
+    public Collider2D hituck;
 
     private float distance;
 
@@ -39,16 +41,26 @@ public class enemy : MonoBehaviour
             {
                 StartCoroutine(hit());
             }
+             
+        }
+        if ((playerMask.value & (1 << other.transform.gameObject.layer)) > 0)
+        {
+            StartCoroutine(hut());
         }
     }
-
+    IEnumerator hut()
+    {
+        hituck.enabled = false;
+        yield return new WaitForSeconds(playerScript.IFrames);
+        hituck.enabled = true;
+    }
     IEnumerator hit()
     {
         Debug.Log("you hit the enemy");
         currentHp -= playerScript.damage;
         if (currentHp <= 0f)
         {
-            Instantiate(ep, new Vector3(self.transform.position.x, self.transform.position.y, 0f), Quaternion.identity);
+            Instantiate(ep, new Vector3(self.transform.position.x, self.transform.position.y, -1f), Quaternion.identity);
             Destroy(self);
         }
         yes = true;
