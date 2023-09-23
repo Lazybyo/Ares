@@ -14,8 +14,17 @@ public class enemy : MonoBehaviour
     Player playerScript;
     public LayerMask playerMask;
     public Collider2D hituck;
+    bool please = true;
 
     private float distance;
+
+    public bool ableToDash;
+    private bool Dable = true;
+    public float dashCooldown = 3f;
+    public float dashTime = 0.2f;
+    public float dashDistance;
+    public float dashForce = 100f;
+    public float dashChargeTime = 1f;
 
     public GameObject self;
     public GameObject ep;
@@ -72,6 +81,22 @@ public class enemy : MonoBehaviour
         yes = false;
     }
 
+    IEnumerator dash()
+    {
+        please = false;
+        yield return new WaitForSeconds(dashChargeTime / 2);
+        Vector2 direction = player.transform.position - self.transform.position;
+        direction.Normalize();
+        yield return new WaitForSeconds(dashChargeTime / 2);
+        Dable = false;
+        rb.AddForce(direction * dashForce);
+        yield return new WaitForSeconds(dashTime);
+        rb.AddForce(-direction * dashForce);
+        please = true;
+        yield return new WaitForSeconds(dashCooldown - dashTime);
+        Dable = true;
+    }
+
     // Update is called once per frame
     void Update()
     {
@@ -80,6 +105,26 @@ public class enemy : MonoBehaviour
         direction.Normalize();
         ani.SetFloat("Speed", direction.x);
 
-        self.transform.position = Vector2.MoveTowards(self.transform.position, player.transform.position, speed * Time.deltaTime);
+        if (ableToDash)
+        {
+            if (distance > dashDistance)
+            {
+                if (please)
+                {
+                    self.transform.position = Vector2.MoveTowards(self.transform.position, player.transform.position, speed * Time.deltaTime);
+                }
+            }
+            else
+            {
+                if (Dable)
+                {
+                    StartCoroutine(dash());
+                }
+            }
+        }else
+        {
+            self.transform.position = Vector2.MoveTowards(self.transform.position, player.transform.position, speed * Time.deltaTime);
+        }
+        
     }
 }

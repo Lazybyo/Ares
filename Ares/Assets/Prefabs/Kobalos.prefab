@@ -202,6 +202,12 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 4096
   hituck: {fileID: 891072338502398434}
+  ableToDash: 0
+  dashCooldown: 7
+  dashTime: 0.1
+  dashDistance: 3.5
+  dashForce: 35
+  dashChargeTime: 3
   self: {fileID: 6311095903417617722}
   ep: {fileID: 1242065286655947221, guid: d43eef67f808db242aa75e3ccba65f28, type: 3}
   layerMask:

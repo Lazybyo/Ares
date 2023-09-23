@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 public class Player : MonoBehaviour
 {
@@ -23,6 +24,7 @@ public class Player : MonoBehaviour
     public LayerMask exp;
     public GameObject Kobalos;
     public GameObject self;
+    public GameObject Minotaur;
 
     public GameObject mouse;
     public GameObject look;
@@ -45,7 +47,13 @@ public class Player : MonoBehaviour
     bool attacking = false;
     bool Sable = true;
     public float SpawnTime = 5f;
-
+    bool Mable = true;
+    public float MinoSpawnTime = 5f;
+    public float timer = 0.0f;
+    float minutes;
+    public bool istimer = true;
+    public TMP_Text textTimer;
+    public int dificultyup = 1;
     //start is start
     void Start()
     {
@@ -70,6 +78,13 @@ public class Player : MonoBehaviour
         xpSlider.value = (100f / expM) * expA;
         HpSlider.value = (100f / MaxHp) * currentHp;
 
+        if (minutes == dificultyup)
+        {
+            dificultyup += 1;
+            SpawnTime *= 0.9f;
+            MinoSpawnTime *= 0.9f;
+        }
+
         if (IsDashing == true)
         {
             rb.AddForce(direction * dashForce);
@@ -89,6 +104,23 @@ public class Player : MonoBehaviour
         {
             StartCoroutine(spawnKobalos());
         }
+        if (Mable)
+        {
+            StartCoroutine(spawnMinotaur());
+        }
+        if (istimer)
+        {
+            timer += Time.deltaTime;
+            updateTimer(timer);
+        }
+    }
+
+    void updateTimer(float time)
+    {
+        minutes = Mathf.FloorToInt(time / 60);
+        float seconds = Mathf.FloorToInt(time - minutes * 60);
+
+        textTimer.text = string.Format("{0:00}:{1:00}", minutes, seconds);
     }
 
     IEnumerator spawnKobalos()
@@ -113,6 +145,30 @@ public class Player : MonoBehaviour
         }
         yield return new WaitForSeconds(SpawnTime);
         Sable = true;
+    }
+
+    IEnumerator spawnMinotaur()
+    {
+        Mable = false;
+        int spawnL = Random.Range(1, 5);
+        if (spawnL == 1)
+        {
+            Instantiate(Minotaur, new Vector3(self.transform.position.x + Random.Range(5, 11), self.transform.position.y + Random.Range(5, 11), 0f), Quaternion.identity);
+        }
+        if (spawnL == 2)
+        {
+            Instantiate(Minotaur, new Vector3(self.transform.position.x - Random.Range(5, 11), self.transform.position.y + Random.Range(5, 11), 0f), Quaternion.identity);
+        }
+        if (spawnL == 3)
+        {
+            Instantiate(Minotaur, new Vector3(self.transform.position.x + Random.Range(5, 11), self.transform.position.y - Random.Range(5, 11), 0f), Quaternion.identity);
+        }
+        if (spawnL == 4)
+        {
+            Instantiate(Minotaur, new Vector3(self.transform.position.x - Random.Range(5, 11), self.transform.position.y - Random.Range(5, 11), 0f), Quaternion.identity);
+        }
+        yield return new WaitForSeconds(MinoSpawnTime);
+        Mable = true;
     }
 
     IEnumerator yes()
@@ -142,6 +198,7 @@ public class Player : MonoBehaviour
                 level += 1;
                 damage *= 1.1f;
                 attackSpeed *= 0.9f;
+                expM *= 1.3f;
                 expA -= expM;
             }
             experiance = other.transform.gameObject;
