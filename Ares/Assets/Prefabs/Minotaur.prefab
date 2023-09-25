@@ -206,7 +206,7 @@ MonoBehaviour:
   dashCooldown: 7
   dashTime: 0.1
   dashDistance: 3.7
-  dashForce: 35
+  dashForce: 50
   dashChargeTime: 3
   self: {fileID: 903961664289017299}
   ep: {fileID: 1242065286655947221, guid: d43eef67f808db242aa75e3ccba65f28, type: 3}

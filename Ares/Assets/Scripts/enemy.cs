@@ -65,7 +65,6 @@ public class enemy : MonoBehaviour
     }
     IEnumerator hit()
     {
-        Debug.Log("you hit the enemy");
         currentHp -= playerScript.damage;
         if (currentHp <= 0f)
         {

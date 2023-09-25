@@ -54,6 +54,11 @@ public class Player : MonoBehaviour
     public bool istimer = true;
     public TMP_Text textTimer;
     public int dificultyup = 1;
+
+    public static bool IsPaused = false;
+    public GameObject PauseUI;
+    public GameObject DeathUI;
+
     //start is start
     void Start()
     {
@@ -63,6 +68,18 @@ public class Player : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            if (IsPaused)
+            {
+                Resume();
+            }else
+            {
+                Pause();
+            }
+        }
+
         movement.x = Input.GetAxisRaw("Horizontal");
         movement.y = Input.GetAxisRaw("Vertical");
 
@@ -113,6 +130,26 @@ public class Player : MonoBehaviour
             timer += Time.deltaTime;
             updateTimer(timer);
         }
+    }
+
+    public void Resume()
+    {
+        PauseUI.SetActive(false);
+        Time.timeScale = 1f;
+        IsPaused = false;
+    }
+
+    void Pause()
+    {
+        PauseUI.SetActive(true);
+        Time.timeScale = 0f;
+        IsPaused = true;
+    }
+
+    void dead()
+    {
+        DeathUI.SetActive(true);
+        Time.timeScale = 0f;
     }
 
     void updateTimer(float time)
@@ -221,13 +258,12 @@ public class Player : MonoBehaviour
     {
         if (Imortal == false)
         {
-            Debug.Log("Hit by enemy");
             GameObject ene = Ehitbox.transform.gameObject;
             enemy = ene.GetComponent<enemy>();
             currentHp -= enemy.attack;
             if (currentHp <= 0f)
             {
-                Debug.Log("Dead");
+                dead();
             }
             Imortal = true;
             yield return new WaitForSeconds(IFrames);

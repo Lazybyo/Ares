@@ -21,7 +21,7 @@ public class exp : MonoBehaviour
     {
         if ((self.value & (1 << other.transform.gameObject.layer)) > 0)
         {
-            Debug.Log("combine");
+            
         }
     }
 
