@@ -1514,7 +1514,7 @@ MonoBehaviour:
   DTime: 0.2
   DCooldown: 1
   SpawnTime: 2
-  MinoSpawnTime: 7
+  MinoSpawnTime: 6
   timer: 0
   istimer: 1
   textTimer: {fileID: 14342293}

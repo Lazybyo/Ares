@@ -90,7 +90,7 @@ public class enemy : MonoBehaviour
         Dable = false;
         rb.AddForce(direction * dashForce);
         yield return new WaitForSeconds(dashTime);
-        rb.AddForce(-direction * dashForce);
+        rb.velocity = new Vector3(0, 0, 0);
         please = true;
         yield return new WaitForSeconds(dashCooldown - dashTime);
         Dable = true;
