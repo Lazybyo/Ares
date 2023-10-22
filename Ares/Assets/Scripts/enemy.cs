@@ -91,8 +91,8 @@ public class enemy : MonoBehaviour
         rb.AddForce(direction * dashForce);
         yield return new WaitForSeconds(dashTime);
         rb.velocity = new Vector3(0, 0, 0);
-        please = true;
         yield return new WaitForSeconds(dashCooldown - dashTime);
+        please = true;
         Dable = true;
     }
 
